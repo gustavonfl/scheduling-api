@@ -10,16 +10,18 @@ import java.time.LocalDateTime;
 public interface AgendamentoRepository extends JpaRepository<Agendamento, Long> {
 
     @Query("""
-        SELECT CASE WHEN COUNT(a) > 0 THEN true ELSE false END
-            FROM Agendamento a
-            WHERE a.usuario = :usuario
-            AND a.status <> : dev.gustavo.agendamento.model.StatusAgendamento.AGENDADO
-            AND (a.dataInicio < :fim AND a.dataFim > :inicio)
-            AND (:ignoreId IS NULL OR a.id <> :ignoreId)
+    SELECT CASE WHEN COUNT(a) > 0 THEN true ELSE false END
+        FROM Agendamento a
+        WHERE a.usuario = :usuario
+        AND a.status <> :status
+        AND (a.dataInicio < :fim AND a.dataFim > :inicio)
+        AND (:ignoreId IS NULL OR a.id <> :ignoreId)
 """)
-
-    boolean existsConflito(@Param("usuario") String usuario,
-                           @Param("inicio") LocalDateTime inicio,
-                           @Param("fim") LocalDateTime fim,
-                           @Param("id") Long ignoreId);
+    boolean existsConflito(
+            @Param("usuario") String usuario,
+            @Param("inicio") LocalDateTime inicio,
+            @Param("fim") LocalDateTime fim,
+            @Param("ignoreId") Long ignoreId,
+            @Param("status") dev.gustavo.agendamento.model.StatusAgendamento status
+    );
 }
