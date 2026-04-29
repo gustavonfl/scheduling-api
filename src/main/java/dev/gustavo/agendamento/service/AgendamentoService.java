@@ -28,7 +28,7 @@ public class AgendamentoService {
     }
 
     private void checarConflito(String usuario, LocalDateTime inicio, LocalDateTime fim, Long id){
-        if (repo.existsConflito(usuario, inicio, fim, id)){
+        if (repo.existsConflito(usuario, inicio, fim, id, StatusAgendamento.AGENDADO)){
             throw new IllegalArgumentException("conflito de agendamento: o usuario ja possui um agendamento nesse intervalo");
         }
     }
